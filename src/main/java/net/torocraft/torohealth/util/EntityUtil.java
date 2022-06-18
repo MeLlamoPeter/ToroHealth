@@ -4,6 +4,7 @@ import java.util.stream.StreamSupport;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.decoration.ArmorStandEntity;
 import net.minecraft.entity.mob.AmbientEntity;
 import net.minecraft.entity.mob.CreeperEntity;
@@ -22,7 +23,12 @@ public class EntityUtil {
   }
 
   public static Relation determineRelation(Entity entity) {
-    if (entity instanceof HostileEntity) {
+    if (entity instanceof PlayerEntity) {
+      if (entity.getDisplayName().getStyle().getColor() == null)
+        return Relation.FOE;
+      else
+        return Relation.FRIEND;
+    } else if (entity instanceof HostileEntity) {
       return Relation.FOE;
     } else if (entity instanceof SlimeEntity) {
       return Relation.FOE;
